@@ -18,20 +18,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		var authProvider = new RobotAuthenticationProvider();
-		var authManager = new ProviderManager(authProvider);
+var configuer=new RobotLoginConfigurer();
 	return	 http
 				.authorizeHttpRequests(
 						authorizeConfig->{
 							authorizeConfig.requestMatchers("/").permitAll();
 							authorizeConfig.anyRequest().authenticated();
 						}
-						)	.formLogin(Customizer.withDefaults())
+						)
+			.formLogin(Customizer.withDefaults())
+			.with(configuer, robotLoginConfigurer -> {
+				robotLoginConfigurer.password("beep-boop");
+				robotLoginConfigurer.password("boop-beep");
+			})
+		//	.apply(configuer.password("password")).and()
 			.httpBasic(Customizer.withDefaults())//login thông quan phương thức  "http basic authentication" "curl -u "user:password" http://localhost:8080/private"
 	.oauth2Login(Customizer.withDefaults())//login thông quan phương thức form authentication
-			.addFilterBefore(new RobotFilter(authManager), UsernamePasswordAuthenticationFilter.class)
 
-				.build();
+			.build();
 	}
 	@Bean
 	public UserDetailsService userDetailsService() {

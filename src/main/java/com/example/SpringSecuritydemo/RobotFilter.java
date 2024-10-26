@@ -22,13 +22,11 @@ import java.io.IOException;
 //trong mỗi filter thường có 1 AuthenticationManager để xác thực request
 
 public class RobotFilter extends OncePerRequestFilter {
-    final private AuthenticationManager gtauthManager;
+    final private AuthenticationManager authManager;
 
     public RobotFilter(AuthenticationManager authManager) {
         this.authManager = authManager;
     }
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -51,10 +49,6 @@ var authentication= RobotAuthentication.unAuthenticated(request.getHeader("robot
             response.getWriter().write("You are not a robot");
             return;
         }
-
-
-
-
     }
 
 }

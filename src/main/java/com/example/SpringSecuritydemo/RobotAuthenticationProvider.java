@@ -7,7 +7,12 @@ import org.springframework.security.core.AuthenticationException;
 import java.util.List;
 
 public class RobotAuthenticationProvider implements AuthenticationProvider {
-    List<String> passwords = List.of("boop-beep", "beep-beep");
+    final private List<String> passwords;
+
+    public RobotAuthenticationProvider(List<String> passwords) {
+        this.passwords = passwords;
+    }
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String password= (String) ( (RobotAuthentication) authentication).getPassword();

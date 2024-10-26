@@ -18,7 +18,6 @@ public class RobotAuthentication implements Authentication {
         this.isAuthenticated = password==null;
         this.password = password;
         this.authorities = authorities;
-
     }
     public static RobotAuthentication unAuthenticated(String password) {
 
